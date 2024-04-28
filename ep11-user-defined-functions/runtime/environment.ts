@@ -1,10 +1,6 @@
-import {
-	MK_BOOL,
-	MK_NATIVE_FN,
-	MK_NULL,
-	MK_NUMBER,
-	RuntimeVal,
-} from "./values.ts";
+import { MK_BOOL, MK_NATIVE_FN, MK_NULL, MK_NUMBER, RunTimeVal, functionValue, NumberVal } from "./values.ts";
+import { TokenType } from "../frontend/lexer.ts";
+import { eval_function } from './eval/expressions.ts';
 
 export function createGlobalEnv() {
 	const env = new Environment();
