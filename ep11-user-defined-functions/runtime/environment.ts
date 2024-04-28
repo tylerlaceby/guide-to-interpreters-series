@@ -28,6 +28,24 @@ export function createGlobalEnv() {
 	}
 	env.declareVar("time", MK_NATIVE_FN(timeFunction), true);
 
+	let intervalDepth = 0;
+	
+	env.declareVar("setInterval", MK_NATIVE_FN((args) => {
+        const func = args.shift() as functionValue;
+        const time = args.shift() as NumberVal;
+        intervalDepth++;
+        setInterval(() => {
+            eval_function(func, []);
+
+            intervalDepth--;
+            if (intervalDepth == 0) {
+                Deno.exit();
+            }
+        }, time.value);
+        
+        return MK_NULL();
+    }), true);
+
 	return env;
 }
 
