@@ -24,14 +24,30 @@ export function createGlobalEnv() {
 	}
 	env.declareVar("time", MK_NATIVE_FN(timeFunction), true);
 
+	
+	//Does the same thing as the js setTimeout fn
 	let intervalDepth = 0;
 	
 	env.declareVar("setInterval", MK_NATIVE_FN((args) => {
-        const func = args.shift() as functionValue;
+		//console.log(args.length); In the example given the value will be 3(two functions + interval value(3000))
+		const args_ln = args.length;/*number of functions being called in setInterval*/
+        let numberArgs: FunctionValue[] = [];
+
+		//Calculate number of functions present in setInterval native func
+		for(let l = 1; l < args_ln; l++) {
+			let f = args.shift() as FunctionValue;
+
+			numberArgs.push(f);
+		}
+
+        //const func = args.shift() as FunctionValue;
         const time = args.shift() as NumberVal;
         intervalDepth++;
         setInterval(() => {
-            eval_function(func, []);
+            
+			for(let c = 0; c < numberArgs.length; c++) {
+				eval_function(numberArgs[c], []);
+			}
 
             intervalDepth--;
             if (intervalDepth == 0) {
@@ -39,7 +55,7 @@ export function createGlobalEnv() {
             }
         }, time.value);
         
-        return MK_NULL();
+        return MK_NUMBER();
     }), true);
 
 	return env;
