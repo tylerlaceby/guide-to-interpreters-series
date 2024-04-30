@@ -1,0 +1,7 @@
+{
+    "tasks": {
+      "prompt": "deno run -A runTerminal.ts",
+
+      "file": "deno run -A runFile.ts"
+    }
+  }
