@@ -96,6 +96,31 @@ export function eval_object_expr(
 	return object;
 }
 
+
+//only used in SetInterval Native func
+export function eval_function(func: FunctionValue, args: RuntimeVal[]): RuntimeVal {
+
+	const scope = new Environment(func.declarationEnv);
+  
+	// Create the variables for the parameters list
+	for (let i = 0; i < func.parameters.length; i++) {
+		// TODO check the bounds here
+		// verify arity of function
+		const varname = func.parameters[i];
+		scope.declareVar(varname, args[i], false);
+	}
+  
+	let result: RuntimeVal = MK_NULL();
+  
+	// Evaluate the function body line by line
+	for (const stmt of func.body) {
+		result = evaluate(stmt, scope);
+	}
+  
+	return result;
+  }
+
+
 export function eval_call_expr(expr: CallExpr, env: Environment): RuntimeVal {
 	const args = expr.args.map((arg) => evaluate(arg, env));
 	const fn = evaluate(expr.caller, env);
