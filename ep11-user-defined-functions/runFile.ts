@@ -2,7 +2,14 @@ import Parser from "./frontend/parser.ts";
 import Environment, { createGlobalEnv } from "./runtime/environment.ts";
 import { evaluate } from "./runtime/interpreter.ts";
 
-run("./test.txt");
+const args = Deno.args;
+
+//console.log(args);
+const file = args[0];
+
+//Now user defines which file he is going to run
+//Run it that way: deno task run test.txt
+run(file);
 
 async function run(filename: string) {
   const parser = new Parser();
