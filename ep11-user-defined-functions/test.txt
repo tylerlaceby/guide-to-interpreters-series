@@ -10,29 +10,3 @@ fn makeAdder (offset) {
 const adder = makeAdder(1);
 
 print(adder(10, 5))
-
-
-
-
-let val = 10;
-
-print(val)
-
-fn addVal() {
-    val = val + 5
-
-    print(val)
-}
-
-fn secondFn() {
-    let hrMin = time() / 60000;
-
-    hrMin = hrMin / 525960
-
-    print(hrMin, time())
-}
-
-setInterval(
-addVal,
-secondFn,
-3000)
